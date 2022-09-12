@@ -1,0 +1,87 @@
+@import '../../../styles/base/mixins';
+@import '../../../styles/vars/variables';
+@import '../../../styles/base';
+
+.pizza-block {
+  display: flex;
+  flex-direction: column;
+  border-radius: rem(5);
+  text-align: center;
+  transition: all 0.2s ease-in-out;
+
+  .wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  .image {
+    align-self: center;
+    width: rem(260);
+  }
+
+  .title {
+    flex: 1 1 auto;
+    margin-bottom: rem(20);
+    font-weight: 900;
+    font-size: rem(20);
+    letter-spacing: 1%;
+  }
+
+  .selector {
+    display: flex;
+    flex-direction: column;
+    border-radius: rem(100);
+    padding: rem(6);
+    background-color: #f3f3f3;
+
+    ul {
+      display: flex;
+      flex: 1;
+
+      &:first-of-type {
+        margin-bottom: rem(6);
+      }
+
+      button {
+        flex: 1;
+        padding: rem(8);
+        font-weight: 600;
+        font-size: rem(14);
+        cursor: pointer;
+
+        &.active {
+          border-radius: rem(5);
+          box-shadow: 0 rem(2) rem(4) rgb(0 0 0 / 4%);
+          background: #fff;
+          cursor: auto;
+        }
+
+        @extend %noselect;
+      }
+    }
+  }
+
+  .bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: rem(20);
+  }
+
+  .price {
+    font-weight: 700;
+    font-size: rem(22);
+    line-height: rem(27);
+    letter-spacing: 0.015em;
+  }
+
+  &:focus {
+    outline: $orange solid rem(2);
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      transform: scale(1.03);
+    }
+  }
+}

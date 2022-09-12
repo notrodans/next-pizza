@@ -1,0 +1,478 @@
+@use 'sass:math';
+
+@import '../../../styles/base/mixins';
+@import '../../../styles/vars/variables';
+@import '../../../styles/base';
+
+.header {
+  border-bottom: 1px solid $gray-line;
+  padding: rem(40) 0;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  @media (max-width: em(649.98)) {
+    flex-direction: column;
+  }
+}
+
+.logo {
+  display: flex;
+  column-gap: rem(15);
+
+  &:not(:last-child) {
+    margin-bottom: rem(15);
+  }
+
+  h1 {
+    font-weight: 800;
+    font-size: 24px;
+    letter-spacing: 1%;
+    text-transform: uppercase;
+    color: #181818;
+  }
+
+  p {
+    color: #7b7b7b;
+  }
+}
+
+.cart {
+  &_top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .content__title {
+    display: flex;
+    align-items: center;
+    font-size: rem(32);
+
+    svg {
+      position: relative;
+      top: rem(-2px);
+      margin-right: rem(10);
+      width: rem(30);
+      height: rem(30);
+
+      path {
+        stroke: $black;
+        stroke-width: 1.9;
+      }
+    }
+  }
+
+  &__clear {
+    display: flex;
+    align-items: center;
+
+    span {
+      display: inline-block;
+      margin-left: rem(7);
+      font-size: rem(18);
+      color: #b6b6b6;
+    }
+
+    span,
+    svg,
+    path {
+      transition: all $duration ease-in-out;
+    }
+
+    .content__items {
+      display: block;
+    }
+
+    &__item {
+      display: flex;
+      margin-top: rem(30);
+      border-top: rem(1) solid $gray-line;
+      padding-top: rem(30);
+      width: 100%;
+
+      &-img {
+        display: flex;
+        align-items: center;
+        margin-right: rem(15);
+        width: 10%;
+      }
+
+      &-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 40%;
+
+        h3 {
+          @include adaptiveValue('font-size', 22, 18);
+
+          font-weight: 700;
+          line-height: math.div(27, 22);
+          letter-spacing: 0.01em;
+        }
+
+        p {
+          font-size: rem(18);
+          color: #8d8d8d;
+        }
+      }
+
+      &-count {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 13%;
+
+        &-minus {
+          svg {
+            path:first-of-type {
+              display: none;
+            }
+          }
+
+          &:disabled {
+            border-color: #787878;
+            opacity: 0.4;
+
+            svg path {
+              fill: #787878;
+            }
+
+            &:hover {
+              background-color: transparent;
+
+              svg path {
+                fill: #787878;
+              }
+            }
+
+            &:active {
+              transform: none;
+            }
+          }
+        }
+
+        b {
+          @include adaptiveValue('font-size', 22, 20);
+        }
+      }
+
+      &-price {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 33%;
+
+        b {
+          @include adaptiveValue('font-size', 22, 20);
+
+          font-weight: 700;
+          letter-spacing: 0.01em;
+        }
+      }
+
+      &-remove {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        width: 4%;
+
+        .button {
+          border-color: darken($color: $gray-line, $amount: 10);
+
+          svg {
+            position: relative;
+            width: rem(11.5);
+            height: rem(11.5);
+          }
+
+          &:hover,
+          &:active {
+            border-color: darken($color: $gray-line, $amount: 80);
+            background-color: darken($color: $gray-line, $amount: 80);
+          }
+        }
+
+        svg {
+          transform: rotate(45deg);
+
+          path {
+            fill: darken($color: $gray-line, $amount: 15);
+          }
+        }
+      }
+    }
+
+    &__bottom {
+      margin: rem(50) 0;
+
+      &-details {
+        display: flex;
+        justify-content: space-between;
+
+        span {
+          font-size: rem(22);
+
+          &:last-of-type {
+            b {
+              color: $orange;
+            }
+          }
+        }
+      }
+
+      &-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: rem(40);
+
+        .go-back-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-color: darken($color: $gray-line, $amount: 10);
+          width: rem(210);
+
+          span {
+            font-weight: 600;
+            color: darken($color: $gray-line, $amount: 20);
+          }
+
+          svg {
+            margin-right: rem(12);
+
+            path {
+              fill: transparent;
+              stroke-width: 2;
+            }
+          }
+
+          &:hover {
+            border-color: darken($color: $gray-line, $amount: 90);
+            background-color: darken($color: $gray-line, $amount: 90);
+
+            span {
+              color: $gray-line;
+            }
+          }
+        }
+
+        .pay-btn {
+          padding: rem(16);
+          width: rem(210);
+          font-weight: 600;
+          font-size: rem(16);
+        }
+      }
+    }
+
+    &:hover {
+      svg {
+        path {
+          stroke: darken($color: #b6b6b6, $amount: 50);
+        }
+      }
+
+      span {
+        color: darken($color: #b6b6b6, $amount: 50);
+      }
+    }
+
+    &--empty {
+      margin: rem(80) auto;
+      width: rem(520);
+      text-align: center;
+
+      h2 {
+        margin-bottom: rem(15);
+        font-weight: 700;
+        font-size: rem(36);
+      }
+
+      p {
+        font-size: rem(20);
+        line-height: 145.4%;
+        letter-spacing: 0.01em;
+        color: #777;
+      }
+
+      img {
+        display: block;
+        margin: rem(45) auto rem(60);
+        width: rem(300);
+      }
+
+      .button--black {
+        margin: 0 auto;
+        padding: rem(12) 0 rem(14);
+        width: rem(320);
+        font-weight: 600;
+        font-size: rem(18);
+      }
+    }
+
+    @extend %noselect;
+  }
+
+  @media (max-width: em(649.98)) {
+    width: 100%;
+  }
+}
+
+.button {
+  display: inline-flex;
+  border: rem(10) solid transparent;
+  border-radius: rem(30);
+  padding: 10px 20px;
+  min-width: rem(100);
+  text-align: center;
+  background-color: $orange;
+  transition: background-color $duration ease-in-out, border-color $duration ease-in-out;
+  cursor: pointer;
+
+  &,
+  span {
+    color: #fff;
+  }
+
+  i,
+  span,
+  path,
+  svg {
+    transition: all $duration ease-in-out;
+  }
+
+  &__delimiter {
+    margin-right: rem(14);
+    margin-left: rem(14);
+    width: rem(1);
+    height: rem(25);
+    background-color: rgb(255 255 255 / 25%);
+  }
+
+  &:hover {
+    background-color: darken($orange, 8%);
+  }
+
+  &:active {
+    background-color: darken($orange, 12%);
+    transform: translateY(1px);
+  }
+
+  &--circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-width: 2px;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+  }
+
+  &--black {
+    background-color: $black;
+
+    &:hover,
+    &:active {
+      background-color: lighten($color: $black, $amount: 10);
+    }
+  }
+
+  &--outline {
+    border-color: $orange;
+    background-color: #fff;
+
+    &,
+    span {
+      color: $orange;
+    }
+
+    svg {
+      path {
+        fill: $orange;
+      }
+    }
+
+    &:hover {
+      background-color: $orange;
+
+      &,
+      span {
+        color: #fff;
+      }
+
+      svg {
+        path {
+          fill: #fff;
+        }
+      }
+    }
+
+    &:active {
+      background-color: darken($orange, 8%);
+    }
+  }
+
+  &--add {
+    svg {
+      margin-right: 2px;
+    }
+
+    span {
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    i {
+      position: relative;
+      left: 3px;
+      top: -1px;
+      display: inline-block;
+      border-radius: 30px;
+      width: 22px;
+      height: 22px;
+      font-weight: 600;
+      font-style: normal;
+      font-size: 13px;
+      line-height: 22px;
+      color: #fff;
+      background-color: $orange;
+    }
+
+    &:hover {
+      i {
+        color: $orange;
+        background-color: #fff;
+      }
+    }
+  }
+
+  &--cart {
+    display: inline-flex;
+    align-items: center;
+    padding: rem(3) rem(16);
+    line-height: 23px;
+
+    svg {
+      margin-right: 8px;
+      margin-bottom: 1px;
+    }
+
+    span {
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    @media (max-width: em(649.98)) {
+      justify-content: center;
+      width: 100%;
+    }
+  }
+
+  @extend %noselect;
+}

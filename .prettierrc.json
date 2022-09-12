@@ -1,0 +1,13 @@
+{
+  "trailingComma": "none",
+  "semi": false,
+  "tabWidth": 2,
+  "jsxSingleQuote": true,
+  "bracketSameLine": true,
+  "singleQuote": true,
+  "arrowParens": "avoid",
+  "printWidth": 120,
+  "importOrder": ["^../(.*)", "^./(.*)"],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
+}

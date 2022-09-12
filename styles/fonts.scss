@@ -1,0 +1,55 @@
+// prettier-ignore
+@font-face {
+  src: url('../app/assets/fonts/ProximaNova-Black.eot');
+  src:
+    local('../app/assets/fonts/Proxima Nova Black'),
+    local('ProximaNova-Black'),
+    url('../app/assets/fonts/ProximaNova-Black.eot?#iefix') format('embedded-opentype'),
+    url('../app/assets/fonts/ProximaNova-Black.woff') format('woff'),
+    url('../app/assets/fonts/ProximaNova-Black.ttf') format('truetype');
+  font-family: 'Proxima Nova';
+  font-weight: 900;
+  font-style: normal;
+}
+
+// prettier-ignore
+@font-face {
+  src: url('../app/assets/fonts/ProximaNova-Bold.eot');
+  src:
+    local('../app/assets/fonts/Proxima Nova Bold'),
+    local('ProximaNova-Bold'),
+    url('../app/assets/fonts/ProximaNova-Bold.eot?#iefix') format('embedded-opentype'),
+    url('../app/assets/fonts/ProximaNova-Bold.woff') format('woff'),
+    url('../app/assets/fonts/ProximaNova-Bold.ttf') format('truetype');
+  font-family: 'Proxima Nova';
+  font-weight: 700;
+  font-style: normal;
+}
+
+// prettier-ignore
+@font-face {
+  src: url('../app/assets/fonts/ProximaNova-Regular.eot');
+  src:
+    local('../app/assets/fonts/Proxima Nova Regular'),
+    local('ProximaNova-Regular'),
+    url('../app/assets/fonts/ProximaNova-Regular.eot?#iefix') format('embedded-opentype'),
+    url('../app/assets/fonts/ProximaNova-Regular.woff') format('woff'),
+    url('../app/assets/fonts/ProximaNova-Regular.ttf') format('truetype');
+  font-family: 'Proxima Nova';
+  font-weight: 400;
+  font-style: normal;
+}
+
+// prettier-ignore
+@font-face {
+  src: url('../app/assets/fonts/ProximaNova-Extrabld.eot');
+  src:
+    local('../app/assets/fonts/Proxima Nova Extrabold'),
+    local('ProximaNova-Extrabld'),
+    url('../app/assets/fonts/ProximaNova-Extrabld.eot?#iefix') format('embedded-opentype'),
+    url('../app/assets/fonts/ProximaNova-Extrabld.woff') format('woff'),
+    url('../app/assets/fonts/ProximaNova-Extrabld.ttf') format('truetype');
+  font-family: 'Proxima Nova';
+  font-weight: 800;
+  font-style: normal;
+}

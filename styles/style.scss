@@ -1,0 +1,62 @@
+@use 'sass:math';
+
+@import 'base/mixins';
+@import 'fonts';
+@import 'vars/variables';
+
+// Reset styles and general styles
+@import 'base/null';
+
+body {
+  background-color: $background;
+
+  .lock & {
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  .loaded & {
+  }
+}
+
+.wrapper {
+  @include adaptiveValue('margin-top', 50, 20);
+
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin: 0 auto;
+  border-radius: rem(10);
+  width: calc(100vw - rem(100));
+  min-height: 100vh;
+  max-width: rem(1400);
+  background-color: #fff;
+
+  > main {
+    flex: 1 1 auto;
+  }
+
+  > * {
+    min-width: 0;
+  }
+
+  @media (max-width: $mobile) {
+    width: calc(100vw - rem(20));
+  }
+}
+
+[class*='_container'] {
+  @if $maxWidthContainer > 0 {
+    margin: 0 auto;
+    max-width: rem($maxWidthContainer);
+    box-sizing: content-box;
+  }
+
+  @if $containerPadding > 0 {
+    padding: 0 rem(math.div($containerPadding, 2));
+  }
+}
+
+@import 'base';
+@import 'common';
+@import 'home';

@@ -1,0 +1,27 @@
+@import './colors';
+
+$fontFamily: 'Proxima Nova', 'Roboto', system-ui, 'Tahoma', sans-serif;
+$fontSize: rem(16);
+$mainColor: #000;
+
+// Page min width
+$minWidth: 320;
+
+// Width canvas of figma layout
+$maxWidth: 1920;
+
+// Width of container (0 = if not)
+$maxWidthContainer: 1300;
+
+// General padding of container
+// (30 = 15px left and right, 0 = if not)
+$containerPadding: 30;
+
+// Width of the first breakpoint
+$containerWidth: $maxWidthContainer + $containerPadding;
+
+// Brakepoints
+$pc: em($containerWidth);
+$tablet: em(991.98);
+$mobile: em(767.98);
+$mobileSmall: em(474.98);

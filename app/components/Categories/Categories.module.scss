@@ -1,0 +1,41 @@
+@import '../../../styles/vars/variables';
+@import '../../../styles/base/mixins';
+@import '../../../styles/base';
+
+.categories {
+  overflow: auto;
+  max-width: 100%;
+
+  &:not(:last-child) {
+    margin-bottom: rem(15);
+  }
+
+  ul {
+    display: flex;
+    gap: rem(10);
+
+    button {
+      border-radius: rem(30);
+      padding: rem(13) rem(30);
+      font-weight: 700;
+      background-color: #f9f9f9;
+      transition: background-color 0.1s ease-in-out;
+      cursor: pointer;
+
+      &:hover {
+        background-color: darken(#f9f9f9, 2%);
+      }
+
+      &:active {
+        background-color: darken(#f9f9f9, 5%);
+      }
+
+      &.active {
+        color: #fff;
+        background-color: #282828;
+      }
+
+      @extend %noselect;
+    }
+  }
+}
