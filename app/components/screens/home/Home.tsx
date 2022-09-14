@@ -1,6 +1,5 @@
 import Categories from '@components/Categories/Categories'
 import PizzaBlock from '@components/PizzaItem/PizzaItem'
-import Skeleton from '@components/PizzaItem/Skeleton/Skeleton'
 import Sort, { sortOptions } from '@components/Sort/Sort'
 import useDebounce from 'app/hooks/useDebounce'
 import HomeContainer from 'app/layouts/Home/HomeContainer'
@@ -9,11 +8,12 @@ import Page from 'app/layouts/Page'
 import { useAppDispatch, useAppSelector } from 'app/redux/hooks'
 import { selectFilter, setFilters } from 'app/redux/slices/filter/filter.slice'
 import { fetchPizzas, selectPizza } from 'app/redux/slices/pizza/pizza.slice'
-import { wrapper } from 'app/redux/store'
-import { GetServerSideProps } from 'next'
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import qs from 'query-string'
 import { FC, useCallback, useEffect, useMemo, useRef } from 'react'
+
+const Skeleton = dynamic(() => import('@components/PizzaItem/Skeleton/Skeleton'), { ssr: false })
 
 const Home: FC = () => {
   const dispatch = useAppDispatch()
@@ -23,7 +23,6 @@ const Home: FC = () => {
   const debounceValue = useDebounce(searchValue, 500)
 
   const skeleton = useMemo(() => [...new Array(6)].map(() => <Skeleton key={Date.now() + Math.random()} />), [])
-  // eslint-disable-next-line
   const pizzas = useMemo(() => items.map(obj => <PizzaBlock key={obj.id} {...obj} />), [items])
 
   const isSearch = useRef(false)
@@ -35,6 +34,7 @@ const Home: FC = () => {
     const search = debounceValue ? `&search=${debounceValue}` : ''
 
     dispatch(fetchPizzas({ currentPage, category, sort, search }))
+    // eslint-disable-next-line
   }, [currentPage, categoryId, debounceValue, sortType])
 
   useEffect(() => {
@@ -71,18 +71,12 @@ const Home: FC = () => {
         categoryId,
         sortProperty: sortType.sortProperty
       })
-
-      router.query = {
-        currentPage: String(currentPage),
-        categoryId: String(categoryId),
-        sortProperty: sortType.sortProperty
-      }
       router.push('/', `?${queryString}`)
     }
     isMounted.current = true
     // eslint-disable-next-line
   }, [currentPage, categoryId, sortType])
-
+  
   return (
     <Page>
       <HomeContainer>
@@ -93,7 +87,6 @@ const Home: FC = () => {
           </div>
           <h2 className='content__title'>{currentCategory}</h2>
           <div className='content__items'>
-            {/* eslint-disable no-nested-ternary */}
             {isLoading === 'pending'
               ? skeleton
               : isLoading === 'success' && pizzas && pizzas.length
@@ -107,11 +100,5 @@ const Home: FC = () => {
     </Page>
   )
 }
-
-export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(store => async ctx => {
-  return {
-    props: {}
-  }
-})
 
 export default Home

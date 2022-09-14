@@ -23,7 +23,7 @@ export const fetchPizzas = createAsyncThunk<IPizza[], IPizzaAsyncOptions>('pizza
   return data
 })
 
-export const pizzaSlice = createSlice({
+const pizzaSlice = createSlice({
   name: 'pizza',
   initialState,
   reducers: {
@@ -32,21 +32,22 @@ export const pizzaSlice = createSlice({
     }
   },
   extraReducers: builder => {
-    builder.addCase(fetchPizzas.pending, state => {
-      state.status = 'pending'
-      state.items = []
-    })
-    builder.addCase(fetchPizzas.fulfilled, (state, { payload }) => {
-      state.items = payload
-      state.status = 'success'
-    })
-    builder.addCase(fetchPizzas.rejected, state => {
-      state.status = 'error'
-      state.items = []
-    })
+    builder
+      .addCase(fetchPizzas.pending, state => {
+        state.status = 'pending'
+        state.items = []
+      })
+      .addCase(fetchPizzas.fulfilled, (state, { payload }) => {
+        state.items = payload
+        state.status = 'success'
+      })
+      .addCase(fetchPizzas.rejected, state => {
+        state.status = 'error'
+        state.items = []
+      })
   }
 })
-export const selectPizza = (state: RootState) => state.pizzaSlice
+export const selectPizza = (state: RootState) => state.pizza
 export const { setItems } = pizzaSlice.actions
 
-export default pizzaSlice.reducer
+export default pizzaSlice

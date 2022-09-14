@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { RootState } from 'app/redux/store'
+import { HYDRATE } from 'next-redux-wrapper'
 
 import { IFilterSliceState, SortType } from './types'
 
@@ -11,7 +12,7 @@ const initialState: IFilterSliceState = {
   searchValue: ''
 }
 
-export const filterSlice = createSlice({
+const filterSlice = createSlice({
   name: 'filter',
   initialState,
   reducers: {
@@ -44,8 +45,8 @@ export const filterSlice = createSlice({
   }
 })
 
-export const selectFilter = (state: RootState) => state?.filterSlice
+export const selectFilter = (state: RootState) => state?.filter
 
 export const { select, selectCategory, selectSort, setPage, setFilters, setSearchValue } = filterSlice.actions
 
-export default filterSlice.reducer
+export default filterSlice

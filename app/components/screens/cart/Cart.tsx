@@ -3,9 +3,12 @@ import { useAppDispatch, useAppSelector } from 'app/redux/hooks'
 import { clearItems, decrementItem, incrementItem, removeFromCart, selectCart } from 'app/redux/slices/cart/cart.slice'
 import { ICartItem } from 'app/redux/slices/cart/types'
 import { selectPizza } from 'app/redux/slices/pizza/pizza.slice'
+import cn from 'classnames'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FC } from 'react'
+
+import styles from './Cart.module.scss'
 
 type Item = { count: number }
 
@@ -18,17 +21,17 @@ const Cart: FC = () => {
 
   return (
     <Page>
-      <div className='container container--cart'>
+      <div className={cn('cart', styles.container, styles['container--cart'])}>
         <div className='content'>
-          <div className='cart'>
+          <div className={styles.cart}>
             {status === 'error' ? (
               <div className='content__error-info'>
                 <h2>Произошла ошибка</h2>
               </div>
             ) : (
               <>
-                <div className='cart__top'>
-                  <h2 className='content__title'>
+                <div className={styles.cart__top}>
+                  <h2 className={styles.content__title}>
                     <svg width='18' height='18' viewBox='0 0 18 18' fill='none' xmlns='http://www.w3.org/2000/svg'>
                       <path
                         d='M6.33333 16.3333C7.06971 16.3333 7.66667 15.7364 7.66667 15C7.66667 14.2636 7.06971 13.6667 6.33333 13.6667C5.59695 13.6667 5 14.2636 5 15C5 15.7364 5.59695 16.3333 6.33333 16.3333Z'
@@ -54,7 +57,7 @@ const Cart: FC = () => {
                     </svg>
                     Корзина
                   </h2>
-                  <div className='cart__clear'>
+                  <div className={styles.cart__clear}>
                     <svg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
                       <path
                         d='M2.5 5H4.16667H17.5'
@@ -92,28 +95,33 @@ const Cart: FC = () => {
                 </div>
                 <div className='content__items'>
                   {items.map((item: ICartItem) => (
-                    <div key={item.id} className='cart__item'>
-                      <div className='cart__item-img'>
+                    <div key={item.id} className={styles.cart__item}>
+                      <div className={styles['cart__item-img']}>
                         <Image
-                          className='pizza-block__image'
+                          className={styles['pizza-block__image']}
                           width={80}
                           height={80}
                           src={item.imageUrl}
                           alt={`pizza: ${item.title}`}
                         />
                       </div>
-                      <div className='cart__item-info'>
+                      <div className={styles['cart__item-info']}>
                         <h3>{item.title}</h3>
                         <p>
                           {item.type}, {item.size}см
                         </p>
                       </div>
-                      <div className='cart__item-count'>
+                      <div className={styles['cart__item-count']}>
                         <button
                           type='button'
                           onClick={() => dispatch(decrementItem(item.id))}
                           disabled={item.count ? !(item.count > 0) : false}
-                          className='button button--outline button--circle cart__item-count-minus'>
+                          className={cn(
+                            'button',
+                            'button--outline',
+                            'button--circle',
+                            styles['cart__item-count-minus']
+                          )}>
                           <svg
                             width='10'
                             height='10'
@@ -134,7 +142,12 @@ const Cart: FC = () => {
                         <button
                           type='button'
                           onClick={() => dispatch(incrementItem(item.id))}
-                          className='button button--outline button--circle cart__item-count-plus'>
+                          className={cn(
+                            'button',
+                            'button--outline',
+                            'button--circle',
+                            styles['cart__item-count-plus']
+                          )}>
                           <svg
                             width='10'
                             height='10'
@@ -152,14 +165,14 @@ const Cart: FC = () => {
                           </svg>
                         </button>
                       </div>
-                      <div className='cart__item-price'>
+                      <div className={styles['cart__item-price']}>
                         <b>{item.price} ₽</b>
                       </div>
-                      <div className='cart__item-remove'>
+                      <div className={styles['cart__item-remove']}>
                         <button
                           type='button'
                           onClick={() => dispatch(removeFromCart(item.id))}
-                          className='button button--outline button--circle'>
+                          className={cn(styles.button, 'button', 'button--outline', 'button--circle')}>
                           <svg
                             width='10'
                             height='10'
@@ -180,8 +193,8 @@ const Cart: FC = () => {
                     </div>
                   ))}
                 </div>
-                <div className='cart__bottom'>
-                  <div className='cart__bottom-details'>
+                <div className={styles.cart__bottom}>
+                  <div className={styles['cart__bottom-details']}>
                     <span>
                       Всего пицц: <b>{itemsLength || 0} шт.</b>
                     </span>
@@ -189,9 +202,9 @@ const Cart: FC = () => {
                       Сумма заказа: <b>{totalPrice} ₽</b>
                     </span>
                   </div>
-                  <div className='cart__bottom-buttons'>
-                    <Link href='/' className='button button--outline button--add go-back-btn'>
-                      <>
+                  <div className={styles['cart__bottom-buttons']}>
+                    <Link href='/'>
+                      <a className='button button--outline button--add go-back-btn'>
                         <svg width='8' height='14' viewBox='0 0 8 14' fill='none' xmlns='http://www.w3.org/2000/svg'>
                           <path
                             d='M7 13L1 6.93015L6.86175 1'
@@ -202,7 +215,7 @@ const Cart: FC = () => {
                           />
                         </svg>
                         <span>Вернуться назад</span>
-                      </>
+                      </a>
                     </Link>
                     <button type='button' className='button pay-btn'>
                       <span>Оплатить сейчас</span>

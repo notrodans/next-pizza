@@ -96,4 +96,4 @@ const PizzaBlock: FC<PizzaBlockProps> = ({ id, title, price, imageUrl, sizes, ty
   )
 }
 
-export default PizzaBlock
+export default memo(PizzaBlock)

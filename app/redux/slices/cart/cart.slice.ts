@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { RootState } from 'app/redux/store'
+import { HYDRATE } from 'next-redux-wrapper'
 
 import { ICartItem } from './types'
 
@@ -13,7 +14,7 @@ const initialState: ICartSliceState = {
   totalPrice: 0
 }
 
-export const cartSlice = createSlice({
+const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
@@ -54,8 +55,8 @@ export const cartSlice = createSlice({
   }
 })
 
-export const selectCart = (state: RootState) => state.cartSlice
+export const selectCart = (state: RootState) => state.cart
 
 export const { addToCart, removeFromCart, clearItems, incrementItem, decrementItem } = cartSlice.actions
 
-export default cartSlice.reducer
+export default cartSlice

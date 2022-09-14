@@ -1,9 +1,11 @@
 import React, { FC } from 'react'
 import ContentLoader from 'react-content-loader'
 
+import styles from '../PizzaItem.module.scss'
+
 const Skeleton: FC = () => (
   <ContentLoader
-    className='pizza-block'
+    className={styles['pizza-block']}
     speed={1}
     width={280}
     height={454}

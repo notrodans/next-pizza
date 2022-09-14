@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, memo } from 'react'
 
 import styles from './Header.module.scss'
 import HeaderCart from './header-cart/HeaderCart'
@@ -15,4 +15,4 @@ const Header: FC = () => {
   )
 }
 
-export default Header
+export default memo(Header)

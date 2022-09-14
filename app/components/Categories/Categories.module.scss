@@ -6,10 +6,6 @@
   overflow: auto;
   max-width: 100%;
 
-  &:not(:last-child) {
-    margin-bottom: rem(15);
-  }
-
   ul {
     display: flex;
     gap: rem(10);
@@ -36,6 +32,12 @@
       }
 
       @extend %noselect;
+    }
+  }
+
+  @media (max-width: $pc) {
+    &:not(:last-child) {
+      margin-bottom: rem(15);
     }
   }
 }
