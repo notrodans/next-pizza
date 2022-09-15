@@ -76,7 +76,7 @@ const Home: FC = () => {
     isMounted.current = true
     // eslint-disable-next-line
   }, [currentPage, categoryId, sortType])
-  
+
   return (
     <Page>
       <HomeContainer>

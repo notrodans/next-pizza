@@ -1,6 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { RootState } from 'app/redux/store'
-import { HYDRATE } from 'next-redux-wrapper'
 
 import { ICartItem } from './types'
 
