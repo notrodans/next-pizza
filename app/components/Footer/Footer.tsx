@@ -7,7 +7,9 @@ const Footer: FC = () => {
 
   return (
     <footer>
-      <div className='footer__container'>{pathname.includes('cart') ? '' : <Pagination />}</div>
+      <div className='footer__container'>
+        {pathname.includes('cart') || pathname.includes('pizza') ? '' : <Pagination />}
+      </div>
     </footer>
   )
 }
