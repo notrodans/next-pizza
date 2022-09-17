@@ -26,6 +26,7 @@ body {
   flex-direction: column;
   overflow: hidden;
   margin: 0 auto;
+  padding-bottom: rem(30);
   border-top-left-radius: rem(10);
   border-top-right-radius: rem(10);
   width: calc(100vw - rem(100));
