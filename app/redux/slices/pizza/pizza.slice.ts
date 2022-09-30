@@ -49,7 +49,7 @@ export const fetchPizzas =
     dispatch(setStatus('pending'))
     try {
       const { data } = await axios.get<IPizza[]>(
-        `https://62ee9ce0f5521ecad578b7b7.mockapi.io/items?limit=4&${currentPage}${category}${sort}`
+        `https://62ee9ce0f5521ecad578b7b7.mockapi.io/items?limit=4${currentPage}${category}${sort}`
       )
       dispatch(setItems(data))
       return dispatch(setStatus('success'))
@@ -66,19 +66,15 @@ export const pizzaApi = createApi({
   }),
   endpoints: build => ({
     fetchPizza: build.query<IPizza[], IPizzaAsyncOptions>({
-      query: ({ currentPage, category, sort }) => {
-        const obj = {
-          url: 'items',
-          params: {
-            page: currentPage,
-            [category ? 'category' : '']: category,
-            limit: 4,
-            sortBy: sort
-          }
+      query: ({ currentPage, category, sort }) => ({
+        url: 'items',
+        params: {
+          page: currentPage,
+          [category ? 'category' : '']: category,
+          limit: 4,
+          sortBy: sort
         }
-        console.log(obj)
-        return obj
-      }
+      })
     })
   })
 })
