@@ -1,12 +1,16 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { RootState } from 'app/redux/store'
+import { Dispatch, PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { AppState, AppThunk } from 'app/redux/store'
 import axios from 'axios'
+import { HYDRATE } from 'next-redux-wrapper'
 
 import { IPizza, IPizzaAsyncOptions } from './types'
 
+type StatusType = 'pending' | 'success' | 'error'
+
 interface IPizzaSliceState {
   items: IPizza[]
-  status: 'pending' | 'success' | 'error'
+  status: StatusType
 }
 
 const initialState: IPizzaSliceState = {
@@ -14,40 +18,71 @@ const initialState: IPizzaSliceState = {
   status: 'pending'
 }
 
-export const fetchPizzas = createAsyncThunk<IPizza[], IPizzaAsyncOptions>('pizza/fetchPizzasStatus', async options => {
-  const { currentPage, category, sort, search } = options
-
-  const { data } = await axios.get<IPizza[]>(
-    `https://62ee9ce0f5521ecad578b7b7.mockapi.io/items?page=${currentPage}&limit=4${category}${sort}&order=desc${search}`
-  )
-  return data
-})
-
 const pizzaSlice = createSlice({
   name: 'pizza',
   initialState,
   reducers: {
-    setItems(state, action) {
+    setItems(state, action: PayloadAction<IPizza[]>) {
       state.items = action.payload
+    },
+    setStatus(state, action: PayloadAction<StatusType>) {
+      state.status = action.payload
     }
   },
   extraReducers: builder => {
-    builder
-      .addCase(fetchPizzas.pending, state => {
-        state.status = 'pending'
-        state.items = []
-      })
-      .addCase(fetchPizzas.fulfilled, (state, { payload }) => {
-        state.items = payload
-        state.status = 'success'
-      })
-      .addCase(fetchPizzas.rejected, state => {
-        state.status = 'error'
-        state.items = []
-      })
+    builder.addCase(HYDRATE, (state, action: any) => {
+      return {
+        ...state,
+        ...action?.payload.pizza
+      }
+    })
   }
 })
-export const selectPizza = (state: RootState) => state.pizza
-export const { setItems } = pizzaSlice.actions
 
-export default pizzaSlice
+export const { setItems, setStatus } = pizzaSlice.actions
+
+export const fetchPizzas =
+  (options: IPizzaAsyncOptions): AppThunk =>
+  async (dispatch: Dispatch) => {
+    const { currentPage, category, sort } = options
+
+    dispatch(setStatus('pending'))
+    try {
+      const { data } = await axios.get<IPizza[]>(
+        `https://62ee9ce0f5521ecad578b7b7.mockapi.io/items?limit=4&${currentPage}${category}${sort}`
+      )
+      dispatch(setItems(data))
+      return dispatch(setStatus('success'))
+    } catch (error) {
+      dispatch(setStatus('error'))
+      return dispatch(setItems([]))
+    }
+  }
+
+export const pizzaApi = createApi({
+  reducerPath: 'pizza/api',
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'https://62ee9ce0f5521ecad578b7b7.mockapi.io'
+  }),
+  endpoints: build => ({
+    fetchPizza: build.query<IPizza[], IPizzaAsyncOptions>({
+      query: ({ currentPage, category, sort }) => {
+        const obj = {
+          url: 'items',
+          params: {
+            page: currentPage,
+            [category ? 'category' : '']: category,
+            limit: 4,
+            sortBy: sort
+          }
+        }
+        console.log(obj)
+        return obj
+      }
+    })
+  })
+})
+
+export const selectPizza = (state: AppState) => state?.pizza
+
+export default pizzaSlice.reducer

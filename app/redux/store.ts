@@ -1,13 +1,27 @@
-import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit'
+import { ThunkAction, configureStore } from '@reduxjs/toolkit'
+import { createWrapper } from 'next-redux-wrapper'
+import { Action, combineReducers } from 'redux'
 
-import combinedReducers from './reducers'
+import cartSlice from './slices/cart/cart.slice'
+import filterSlice from './slices/filter/filter.slice'
+import pizzaSlice, { pizzaApi } from './slices/pizza/pizza.slice'
 
-const store = configureStore({
-  reducer: combinedReducers
+const rootReducer = combineReducers({
+  filter: filterSlice,
+  pizza: pizzaSlice,
+  cart: cartSlice,
+  [pizzaApi.reducerPath]: pizzaApi.reducer
 })
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
-export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>
+const store = () =>
+  configureStore({
+    reducer: rootReducer,
+    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(pizzaApi.middleware),
+    devTools: true
+  })
 
-export default store
+export type AppStore = ReturnType<typeof store>
+export type AppState = ReturnType<AppStore['getState']>
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppState, unknown, Action>
+
+export const wrapper = createWrapper<AppStore>(store)

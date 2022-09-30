@@ -1,13 +1,15 @@
 import Page from 'app/layouts/Page'
 import { IPizza } from 'app/redux/slices/pizza/types'
 import axios from 'axios'
-import { GetStaticProps } from 'next'
+import { GetStaticPaths, GetStaticProps } from 'next'
 import Image from 'next/image'
 import React, { FC } from 'react'
 
-// eslint-disable-next-line
-// @ts-ignore
-const FullPizza: FC<IPizza> = ({ pizza }) => {
+type PizzaType = {
+  pizza: IPizza
+}
+
+const FullPizza: FC<PizzaType> = ({ pizza }) => {
   return (
     <Page>
       <div className='container'>
@@ -20,17 +22,8 @@ const FullPizza: FC<IPizza> = ({ pizza }) => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const fetch = async () => {
-    try {
-      const { data } = await axios.get(`https://62ee9ce0f5521ecad578b7b7.mockapi.io/items/${params?.id}`)
-      console.log(data)
-      return data
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  const pizza = await fetch()
+  const { data } = await axios.get(`https://62ee9ce0f5521ecad578b7b7.mockapi.io/items/${params?.id}`)
+  const pizza = data
 
   return {
     props: {
@@ -40,7 +33,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   }
 }
 
-export const getStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async () => {
   const { data } = await axios.get<IPizza[]>(`https://62ee9ce0f5521ecad578b7b7.mockapi.io/items`)
 
   const paths = data.map(item => ({

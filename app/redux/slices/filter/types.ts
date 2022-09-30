@@ -8,5 +8,4 @@ export interface IFilterSliceState {
   currentPage: number
   currentCategory: string
   sort: SortType
-  searchValue: string
 }

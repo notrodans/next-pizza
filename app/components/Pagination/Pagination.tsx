@@ -9,7 +9,6 @@ import styles from './Pagination.module.scss'
 const Pagination: FC = () => {
   const dispatch = useAppDispatch()
   const { currentPage } = useAppSelector(selectFilter)
-
   return (
     <ReactPaginate
       className={styles.pagination}

@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { RootState } from 'app/redux/store'
+import { AppState } from 'app/redux/store'
+import { HYDRATE } from 'next-redux-wrapper'
 
 import { IFilterSliceState, SortType } from './types'
 
@@ -7,8 +8,7 @@ const initialState: IFilterSliceState = {
   categoryId: 0,
   currentPage: 1,
   currentCategory: 'Все',
-  sort: { name: 'популярности', sortProperty: 'rating' },
-  searchValue: ''
+  sort: { name: 'популярности', sortProperty: 'rating' }
 }
 
 const filterSlice = createSlice({
@@ -37,15 +37,20 @@ const filterSlice = createSlice({
         state.currentPage = 1
         state.sort = { name: 'популярности', sortProperty: 'rating' }
       }
-    },
-    setSearchValue(state, action: PayloadAction<string>) {
-      state.searchValue = action.payload
+    }
+  },
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      return {
+        ...state,
+        ...action.payload.filter
+      }
     }
   }
 })
 
-export const selectFilter = (state: RootState) => state?.filter
+export const selectFilter = (state: AppState) => state?.filter
 
-export const { select, selectCategory, selectSort, setPage, setFilters, setSearchValue } = filterSlice.actions
+export const { select, selectCategory, selectSort, setPage, setFilters } = filterSlice.actions
 
-export default filterSlice
+export default filterSlice.reducer

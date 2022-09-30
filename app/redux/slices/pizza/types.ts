@@ -3,16 +3,17 @@ export interface IPizza {
   imageUrl: string
   title: string
   types: number[]
-  type?: string
+  type?: 'тонкое' | 'традиционное'
   sizes: number[]
   size?: string
   price: number
   count?: number
+  category?: number
+  rating?: number
 }
 
 export interface IPizzaAsyncOptions {
   currentPage: number
-  category: string
+  category: number | string
   sort: string
-  search: string
 }
