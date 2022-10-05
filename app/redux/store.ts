@@ -4,19 +4,17 @@ import { Action, combineReducers } from 'redux'
 
 import cartSlice from './slices/cart/cart.slice'
 import filterSlice from './slices/filter/filter.slice'
-import pizzaSlice, { pizzaApi } from './slices/pizza/pizza.slice'
+import pizzaSlice from './slices/pizza/pizza.slice'
 
 const rootReducer = combineReducers({
   filter: filterSlice,
   pizza: pizzaSlice,
-  cart: cartSlice,
-  [pizzaApi.reducerPath]: pizzaApi.reducer
+  cart: cartSlice
 })
 
 const store = () =>
   configureStore({
     reducer: rootReducer,
-    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(pizzaApi.middleware),
     devTools: true
   })
 

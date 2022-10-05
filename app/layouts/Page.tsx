@@ -1,6 +1,6 @@
 import Footer from '@components/Footer/Footer'
 import Header from '@components/Header/Header'
-import { FC, PropsWithChildren } from 'react'
+import { FC, PropsWithChildren, memo } from 'react'
 
 const Page: FC<PropsWithChildren> = ({ children }) => {
   return (
@@ -12,4 +12,4 @@ const Page: FC<PropsWithChildren> = ({ children }) => {
   )
 }
 
-export default Page
+export default memo(Page)

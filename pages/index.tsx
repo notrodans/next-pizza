@@ -25,10 +25,7 @@ export const getStaticProps: GetStaticProps = wrapper.getStaticProps(({ getState
   const category = categoryId ? `&category=${categoryId}` : ''
   const sort = sortType ? `&sortBy=${sortType.sortProperty}` : ''
 
-  await dispatch(fetchPizzas({ currentPage, category, sort }))
-
-  const { pizza } = getState()
-  const { items } = pizza
+  const { payload: items } = await dispatch(fetchPizzas({ currentPage, category, sort }))
 
   return {
     props: {

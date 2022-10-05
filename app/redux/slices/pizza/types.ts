@@ -14,6 +14,6 @@ export interface IPizza {
 
 export interface IPizzaAsyncOptions {
   currentPage: number
-  category: number | string
+  category: string
   sort: string
 }

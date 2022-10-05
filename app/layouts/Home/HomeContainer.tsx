@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren } from 'react'
+import { FC, memo, PropsWithChildren } from 'react'
 
 const HomeContainer: FC<PropsWithChildren> = ({ children }) => {
   return (
@@ -8,4 +8,4 @@ const HomeContainer: FC<PropsWithChildren> = ({ children }) => {
   )
 }
 
-export default HomeContainer
+export default memo(HomeContainer)

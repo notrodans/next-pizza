@@ -6,7 +6,7 @@ import HomeContent from 'app/layouts/Home/HomeContent'
 import Page from 'app/layouts/Page'
 import { useAppSelector } from 'app/redux/hooks'
 import { selectFilter } from 'app/redux/slices/filter/filter.slice'
-import { pizzaApi, selectPizza } from 'app/redux/slices/pizza/pizza.slice'
+import { fetchPizzas, selectPizza } from 'app/redux/slices/pizza/pizza.slice'
 import { IPizza } from 'app/redux/slices/pizza/types'
 import dynamic from 'next/dynamic'
 import { FC, useEffect, useMemo, useRef } from 'react'
@@ -19,14 +19,9 @@ type ItemsType = {
 }
 
 const Home: FC<ItemsType> = ({ items }) => {
-  const useGetFetchPizza = pizzaApi.endpoints.fetchPizza.useQuery
   const { currentCategory, categoryId, currentPage, sort: sortType } = useAppSelector(selectFilter)
-
-  const { data, error, isLoading } = useGetFetchPizza({
-    currentPage,
-    category: categoryId,
-    sort: sortType.sortProperty
-  })
+  const { items: data, isLoading, status } = useAppSelector(selectPizza)
+  const dispatch = useDispatch()
 
   const isMount = useRef(false)
   const isItems = useRef(true)
@@ -37,10 +32,19 @@ const Home: FC<ItemsType> = ({ items }) => {
     isMount.current = true
   }, [currentCategory, categoryId, currentPage, sortType])
 
+  useEffect(() => {
+    const category = categoryId ? `&category=${categoryId}` : ''
+    const sort = sortType ? `&sortBy=${sortType.sortProperty}` : ''
+
+    // eslint-disable-next-line
+    // @ts-ignore
+    dispatch(fetchPizzas({ currentPage, category, sort }))
+  }, [currentPage, categoryId, sortType])
+
   const skeleton = useMemo(() => [...new Array(6)].map(() => <Skeleton key={Date.now() + Math.random()} />), [])
   const pizzas = useMemo(() => data && data.map(item => <PizzaBlock key={item.id} {...item} />), [data])
   const pizzasFromServer = useMemo(() => items.map(item => <PizzaBlock key={item.id} {...item} />), [items])
-  console.log(error)
+
   return (
     <Page>
       <HomeContainer>
@@ -53,11 +57,11 @@ const Home: FC<ItemsType> = ({ items }) => {
           <div className='content__items'>
             {isLoading
               ? skeleton
-              : !isLoading && isItems.current
+              : isItems.current
               ? pizzasFromServer
-              : !isLoading && !isItems.current && pizzas && pizzas.length
+              : !isItems.current && pizzas && pizzas.length
               ? pizzas
-              : error
+              : status === 'error'
               ? 'Ошибка на стороне сервера'
               : 'Ничего не найдено'}
           </div>
