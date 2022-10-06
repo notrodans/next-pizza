@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { AppState } from 'app/redux/store'
 import axios from 'axios'
 import { HYDRATE } from 'next-redux-wrapper'
@@ -35,10 +35,10 @@ const pizzaSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(HYDRATE, (state, action: any) => {
+      .addCase(HYDRATE, (state, { payload }: any) => {
         return {
           ...state,
-          ...action?.payload.pizza
+          ...payload.pizza
         }
       })
       .addCase(fetchPizzas.pending, state => {

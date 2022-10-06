@@ -4,13 +4,12 @@ import Sort from '@components/Sort/Sort'
 import HomeContainer from 'app/layouts/Home/HomeContainer'
 import HomeContent from 'app/layouts/Home/HomeContent'
 import Page from 'app/layouts/Page'
-import { useAppSelector } from 'app/redux/hooks'
+import { useAppDispatch, useAppSelector } from 'app/redux/hooks'
 import { selectFilter } from 'app/redux/slices/filter/filter.slice'
 import { fetchPizzas, selectPizza } from 'app/redux/slices/pizza/pizza.slice'
 import { IPizza } from 'app/redux/slices/pizza/types'
 import dynamic from 'next/dynamic'
 import { FC, useEffect, useMemo, useRef } from 'react'
-import { useDispatch } from 'react-redux'
 
 const Skeleton = dynamic(() => import('@components/PizzaItem/Skeleton/Skeleton'), { ssr: false })
 
@@ -21,7 +20,7 @@ type ItemsType = {
 const Home: FC<ItemsType> = ({ items }) => {
   const { currentCategory, categoryId, currentPage, sort: sortType } = useAppSelector(selectFilter)
   const { items: data, isLoading, status } = useAppSelector(selectPizza)
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const isMount = useRef(false)
   const isItems = useRef(true)
@@ -36,8 +35,6 @@ const Home: FC<ItemsType> = ({ items }) => {
     const category = categoryId ? `&category=${categoryId}` : ''
     const sort = sortType ? `&sortBy=${sortType.sortProperty}` : ''
 
-    // eslint-disable-next-line
-    // @ts-ignore
     dispatch(fetchPizzas({ currentPage, category, sort }))
   }, [currentPage, categoryId, sortType])
 
